@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Upload, X, FileImage } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Upload, X, FileImage, ImageIcon } from "lucide-react";
 
 interface ImageUploadProps {
   onFileSelect: (file: File) => void;
@@ -40,38 +41,68 @@ export function ImageUpload({ onFileSelect, isAnalyzing, selectedFile, onClear }
 
   if (preview && selectedFile) {
     return (
-      <div className="relative rounded-lg border border-border bg-card overflow-hidden medical-card-shadow">
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-medical-surface">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="relative rounded-xl border border-border bg-card overflow-hidden medical-card-shadow-lg"
+      >
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-muted/50">
           <FileImage className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium text-foreground truncate flex-1">{selectedFile.name}</span>
-          <span className="text-xs text-muted-foreground">{(selectedFile.size / 1024).toFixed(1)} KB</span>
+          <span className="text-xs text-muted-foreground font-mono">{(selectedFile.size / 1024).toFixed(1)} KB</span>
           {!isAnalyzing && (
-            <button onClick={handleClear} className="p-1 rounded hover:bg-muted transition-colors">
-              <X className="h-4 w-4 text-muted-foreground" />
-            </button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleClear}
+              className="p-1.5 rounded-lg hover:bg-destructive/10 transition-colors group"
+            >
+              <X className="h-4 w-4 text-muted-foreground group-hover:text-destructive transition-colors" />
+            </motion.button>
           )}
         </div>
-        <div className="relative">
-          <img src={preview} alt="Medical scan" className="w-full max-h-80 object-contain bg-medical-navy/5 p-2" />
-          {isAnalyzing && (
-            <div className="absolute inset-0 bg-foreground/5 flex items-center justify-center">
-              <div className="absolute inset-x-0 top-0 h-1 bg-primary/30 overflow-hidden">
-                <div className="h-full w-1/3 bg-primary animate-scan-line rounded-full" />
-              </div>
-            </div>
-          )}
+        <div className="relative bg-muted/30">
+          <img src={preview} alt="Medical scan" className="w-full max-h-72 object-contain p-3" />
+          <AnimatePresence>
+            {isAnalyzing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-primary/5 flex items-center justify-center"
+              >
+                <div className="absolute inset-x-0 top-0 h-1 bg-primary/20 overflow-hidden rounded-full">
+                  <motion.div
+                    className="h-full w-1/3 bg-primary rounded-full"
+                    animate={{ x: ["0%", "300%"] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-card/90 backdrop-blur-md rounded-xl px-5 py-3 shadow-lg border border-border"
+                >
+                  <p className="text-sm font-medium text-foreground">Analyzing scan...</p>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
-      className={`relative rounded-lg border-2 border-dashed p-10 text-center transition-all cursor-pointer
-        ${isDragging ? "border-primary bg-medical-highlight" : "border-border hover:border-primary/50 hover:bg-medical-surface"}`}
+      className={`relative rounded-xl border-2 border-dashed p-8 text-center transition-all cursor-pointer group
+        ${isDragging ? "border-primary bg-medical-highlight" : "border-border hover:border-primary/40 hover:bg-muted/50"}`}
       onClick={() => {
         const input = document.createElement("input");
         input.type = "file";
@@ -83,16 +114,27 @@ export function ImageUpload({ onFileSelect, isAnalyzing, selectedFile, onClear }
         input.click();
       }}
     >
-      <Upload className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
-      <p className="text-sm font-medium text-foreground">
-        Drop medical image here or click to browse
+      <motion.div
+        animate={isDragging ? { scale: 1.1, y: -4 } : { scale: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        <div className="h-14 w-14 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+          <ImageIcon className="h-7 w-7 text-primary/70 group-hover:text-primary transition-colors" />
+        </div>
+      </motion.div>
+      <p className="text-sm font-semibold text-foreground">
+        Drop medical image here
       </p>
       <p className="text-xs text-muted-foreground mt-1">
-        Barium swallow, X-ray, CT, endoscopy, or manometry images
+        or click to browse your files
       </p>
-      <p className="text-xs text-muted-foreground mt-0.5">
-        JPEG, PNG, WEBP supported
-      </p>
-    </div>
+      <div className="flex items-center justify-center gap-2 mt-4">
+        {["Barium Swallow", "X-ray", "CT", "Endoscopy", "Manometry"].map((type) => (
+          <span key={type} className="text-[10px] font-medium text-muted-foreground/70 bg-muted px-2 py-0.5 rounded-full">
+            {type}
+          </span>
+        ))}
+      </div>
+    </motion.div>
   );
 }
