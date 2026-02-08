@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ImageUpload } from "@/components/ImageUpload";
 import { AnalysisDisplay } from "@/components/AnalysisDisplay";
 import { analyzeImage, type AnalysisResult } from "@/lib/analyzeImage";
 import { generateReport } from "@/lib/generateReport";
 import { Button } from "@/components/ui/button";
-import { Loader2, FileDown, Scan, ShieldCheck } from "lucide-react";
+import { Loader2, FileDown, Scan, ShieldCheck, Microscope, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -41,34 +42,56 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="medical-gradient">
-        <div className="container max-w-5xl py-8 px-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center">
-              <Scan className="h-5 w-5 text-primary-foreground" />
+      <header className="medical-gradient relative overflow-hidden">
+        {/* Subtle dot pattern overlay */}
+        <div className="absolute inset-0 dot-pattern opacity-30" />
+        <div className="relative container max-w-6xl py-10 px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <div className="flex items-center gap-4 mb-3">
+              <div className="h-12 w-12 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/10 flex items-center justify-center">
+                <Microscope className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-primary-foreground tracking-tight">
+                  Achalasia Cardia Diagnostic AI
+                </h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="h-1.5 w-1.5 rounded-full bg-medical-success animate-pulse" />
+                  <p className="text-xs text-primary-foreground/60 font-medium">
+                    AI-Powered • GI Tract Specialized Analysis
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-primary-foreground tracking-tight">
-                Achalasia Cardia Diagnostic AI
-              </h1>
-              <p className="text-xs text-primary-foreground/70">
-                AI-Powered • GI Tract Specialized Analysis
-              </p>
-            </div>
-          </div>
-          <p className="text-sm text-primary-foreground/60 mt-3 max-w-xl">
-            Upload esophageal imaging studies for AI-assisted detection of Achalasia Cardia,
-            including barium swallow, CT, endoscopy, and manometry images.
-          </p>
+            <p className="text-sm text-primary-foreground/50 mt-4 max-w-xl leading-relaxed">
+              Upload esophageal imaging studies for AI-assisted detection of Achalasia Cardia,
+              including barium swallow, CT, endoscopy, and manometry images.
+            </p>
+          </motion.div>
         </div>
       </header>
 
-      <main className="container max-w-5xl px-4 py-8">
+      <main className="container max-w-6xl px-6 py-8">
         <div className="grid lg:grid-cols-5 gap-6">
           {/* Left Panel - Upload */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-              <h2 className="text-sm font-semibold text-foreground mb-3">Medical Image Input</h2>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="lg:col-span-2 space-y-5"
+          >
+            <div className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Scan className="h-4 w-4 text-primary" />
+                </div>
+                <h2 className="text-sm font-bold text-foreground">Medical Image Input</h2>
+              </div>
+
               <ImageUpload
                 onFileSelect={setSelectedFile}
                 isAnalyzing={isAnalyzing}
@@ -76,11 +99,11 @@ const Index = () => {
                 onClear={handleClear}
               />
 
-              <div className="mt-4 space-y-2">
+              <div className="mt-5 space-y-2.5">
                 <Button
                   onClick={handleAnalyze}
                   disabled={!selectedFile || isAnalyzing}
-                  className="w-full"
+                  className="w-full h-12 text-sm font-semibold rounded-xl glow-primary"
                   size="lg"
                 >
                   {isAnalyzing ? (
@@ -90,61 +113,102 @@ const Index = () => {
                     </>
                   ) : (
                     <>
-                      <Scan className="h-4 w-4 mr-2" />
+                      <Zap className="h-4 w-4 mr-2" />
                       Analyze for Achalasia
                     </>
                   )}
                 </Button>
 
-                {result && (
-                  <Button
-                    onClick={handleDownloadReport}
-                    variant="outline"
-                    className="w-full"
-                    size="lg"
-                  >
-                    <FileDown className="h-4 w-4 mr-2" />
-                    Download PDF Report
-                  </Button>
-                )}
+                <AnimatePresence>
+                  {result && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                    >
+                      <Button
+                        onClick={handleDownloadReport}
+                        variant="outline"
+                        className="w-full h-12 text-sm font-semibold rounded-xl"
+                        size="lg"
+                      >
+                        <FileDown className="h-4 w-4 mr-2" />
+                        Download PDF Report
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
             {/* Info card */}
-            <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="rounded-xl border border-border bg-card p-5 medical-card-shadow"
+            >
               <div className="flex items-start gap-3">
-                <ShieldCheck className="h-5 w-5 text-medical-success flex-shrink-0 mt-0.5" />
+                <div className="h-8 w-8 rounded-lg bg-medical-success/10 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck className="h-4 w-4 text-medical-success" />
+                </div>
                 <div>
-                  <h3 className="text-xs font-semibold text-foreground">Analysis Method</h3>
-                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                  <h3 className="text-xs font-bold text-foreground">Analysis Method</h3>
+                  <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
                     Uses advanced AI vision with specialized GI tract prompting based on
                     Chicago Classification v4.0 criteria. Evaluates bird's beak sign, esophageal
                     dilation, peristalsis patterns, and LES function.
                   </p>
-                  <p className="text-xs text-muted-foreground mt-2 italic">
-                    For clinical reference only. Not a substitute for professional medical diagnosis.
-                  </p>
+                  <div className="mt-3 pt-3 border-t border-border">
+                    <p className="text-[11px] text-muted-foreground/70 italic">
+                      For clinical reference only. Not a substitute for professional medical diagnosis.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Panel - Results */}
-          <div className="lg:col-span-3">
-            {result ? (
-              <AnalysisDisplay analysis={result.analysis} fileName={result.fileName} />
-            ) : (
-              <div className="rounded-lg border border-dashed border-border bg-medical-surface/50 p-12 text-center">
-                <Scan className="h-12 w-12 mx-auto mb-3 text-muted-foreground/40" />
-                <p className="text-sm text-muted-foreground">
-                  Upload an image and run analysis to see diagnostic results here
-                </p>
-                <p className="text-xs text-muted-foreground/60 mt-1">
-                  Supported: Barium swallow, X-ray, CT, endoscopy, manometry
-                </p>
-              </div>
-            )}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="lg:col-span-3"
+          >
+            <AnimatePresence mode="wait">
+              {result ? (
+                <motion.div
+                  key="results"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <AnalysisDisplay analysis={result.analysis} fileName={result.fileName} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="rounded-xl border border-dashed border-border bg-muted/30 p-16 text-center"
+                >
+                  <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
+                    <div className="h-16 w-16 mx-auto mb-4 rounded-2xl bg-muted flex items-center justify-center">
+                      <Scan className="h-8 w-8 text-muted-foreground/40" />
+                    </div>
+                  </motion.div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Upload an image and run analysis
+                  </p>
+                  <p className="text-xs text-muted-foreground/50 mt-1.5">
+                    Diagnostic results will appear here
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </main>
     </div>

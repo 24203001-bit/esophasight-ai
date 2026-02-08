@@ -1,21 +1,43 @@
 import type { AnalysisResult } from "@/lib/analyzeImage";
-import { CheckCircle, XCircle, AlertTriangle, Activity, Stethoscope } from "lucide-react";
+import type { Easing } from "framer-motion";
+import { motion } from "framer-motion";
+import { CheckCircle, XCircle, AlertTriangle, Activity, Stethoscope, ListChecks, GitBranch } from "lucide-react";
 
 interface AnalysisDisplayProps {
   analysis: AnalysisResult;
   fileName: string;
 }
 
+const easeOut: Easing = [0.0, 0.0, 0.2, 1.0];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: easeOut } },
+};
+
 export function AnalysisDisplay({ analysis, fileName }: AnalysisDisplayProps) {
   const diagIcon =
-    analysis.diagnosis === "Positive" ? <XCircle className="h-6 w-6 text-destructive" /> :
-    analysis.diagnosis === "Negative" ? <CheckCircle className="h-6 w-6 text-medical-success" /> :
-    <AlertTriangle className="h-6 w-6 text-medical-warning" />;
+    analysis.diagnosis === "Positive" ? <XCircle className="h-7 w-7 text-destructive" /> :
+    analysis.diagnosis === "Negative" ? <CheckCircle className="h-7 w-7 text-medical-success" /> :
+    <AlertTriangle className="h-7 w-7 text-medical-warning" />;
 
   const diagBg =
-    analysis.diagnosis === "Positive" ? "bg-destructive/10 border-destructive/20" :
-    analysis.diagnosis === "Negative" ? "bg-medical-success/10 border-medical-success/20" :
-    "bg-medical-warning/10 border-medical-warning/20";
+    analysis.diagnosis === "Positive" ? "bg-destructive/8 border-destructive/15" :
+    analysis.diagnosis === "Negative" ? "bg-medical-success/8 border-medical-success/15" :
+    "bg-medical-warning/8 border-medical-warning/15";
+
+  const diagAccent =
+    analysis.diagnosis === "Positive" ? "text-destructive" :
+    analysis.diagnosis === "Negative" ? "text-medical-success" :
+    "text-medical-warning";
 
   const indicators = [
     { label: "Bird's Beak Sign", value: analysis.key_indicators.bird_beak_sign },
@@ -27,110 +49,126 @@ export function AnalysisDisplay({ analysis, fileName }: AnalysisDisplayProps) {
   ];
 
   return (
-    <div className="space-y-4">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-4">
       {/* Diagnosis Header */}
-      <div className={`rounded-lg border p-5 ${diagBg}`}>
+      <motion.div variants={item} className={`rounded-xl border p-6 ${diagBg}`}>
         <div className="flex items-start gap-4">
-          {diagIcon}
+          <div className="flex-shrink-0 mt-0.5">{diagIcon}</div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 flex-wrap">
-              <h3 className="text-lg font-semibold text-foreground">
+              <h3 className="text-lg font-bold text-foreground tracking-tight">
                 Achalasia Cardia — {analysis.diagnosis}
               </h3>
-              <span className="text-sm font-mono font-medium px-2 py-0.5 rounded bg-foreground/10">
-                {analysis.confidence}% confidence
+            </div>
+            <div className="flex items-center gap-3 mt-2">
+              <span className={`text-2xl font-mono font-bold ${diagAccent}`}>
+                {analysis.confidence}%
               </span>
+              <span className="text-xs text-muted-foreground">confidence</span>
             </div>
             {analysis.achalasia_type && analysis.achalasia_type !== "Not Applicable" && (
-              <p className="text-sm text-muted-foreground mt-1">{analysis.achalasia_type}</p>
+              <p className="text-sm text-muted-foreground mt-2 font-medium">{analysis.achalasia_type}</p>
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Key Indicators */}
-      <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-        <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+      <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+        <h4 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
           <Activity className="h-4 w-4 text-primary" /> Key Indicators
         </h4>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {indicators.map((ind) => (
-            <div
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          {indicators.map((ind, i) => (
+            <motion.div
               key={ind.label}
-              className={`flex items-center gap-2 rounded-md px-3 py-2 text-xs font-medium
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 + i * 0.05 }}
+              className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-xs font-medium transition-colors
                 ${ind.value ? "bg-medical-success/10 text-medical-success" : "bg-muted text-muted-foreground"}`}
             >
-              {ind.value ? <CheckCircle className="h-3.5 w-3.5" /> : <XCircle className="h-3.5 w-3.5" />}
+              {ind.value ? <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" /> : <XCircle className="h-3.5 w-3.5 flex-shrink-0" />}
               {ind.label}
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Findings */}
       {analysis.findings?.length > 0 && (
-        <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-          <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+          <h4 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
             <Stethoscope className="h-4 w-4 text-primary" /> Detailed Findings
           </h4>
           <div className="space-y-2">
             {analysis.findings.map((f, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-md bg-medical-surface p-3">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + i * 0.06 }}
+                className="flex items-start gap-3 rounded-lg bg-muted/50 p-3.5 hover:bg-muted/80 transition-colors"
+              >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-foreground">{f.finding}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{f.location}</p>
+                  <p className="text-sm text-foreground leading-relaxed">{f.finding}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{f.location}</p>
                 </div>
-                <span className={`text-xs font-medium px-2 py-0.5 rounded whitespace-nowrap
+                <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap
                   ${f.severity === "Severe" ? "bg-destructive/10 text-destructive" :
                     f.severity === "Moderate" ? "bg-medical-warning/10 text-medical-warning" :
                     f.severity === "Mild" ? "bg-primary/10 text-primary" :
                     "bg-medical-success/10 text-medical-success"}`}>
                   {f.severity}
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Clinical Notes */}
       {analysis.clinical_notes && (
-        <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-          <h4 className="text-sm font-semibold text-foreground mb-2">Clinical Interpretation</h4>
+        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+          <h4 className="text-sm font-bold text-foreground mb-3">Clinical Interpretation</h4>
           <p className="text-sm text-muted-foreground leading-relaxed">{analysis.clinical_notes}</p>
-        </div>
+        </motion.div>
       )}
 
       {/* Recommendations */}
       {analysis.recommendations?.length > 0 && (
-        <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-          <h4 className="text-sm font-semibold text-foreground mb-3">Recommendations</h4>
-          <ol className="space-y-2">
+        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+          <h4 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+            <ListChecks className="h-4 w-4 text-primary" /> Recommendations
+          </h4>
+          <ol className="space-y-3">
             {analysis.recommendations.map((rec, i) => (
               <li key={i} className="flex items-start gap-3 text-sm">
-                <span className="flex-shrink-0 w-5 h-5 rounded bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
+                <span className="flex-shrink-0 w-6 h-6 rounded-lg bg-primary text-primary-foreground text-xs flex items-center justify-center font-bold">
                   {i + 1}
                 </span>
-                <span className="text-muted-foreground">{rec}</span>
+                <span className="text-muted-foreground leading-relaxed pt-0.5">{rec}</span>
               </li>
             ))}
           </ol>
-        </div>
+        </motion.div>
       )}
 
       {/* Differential Diagnoses */}
       {analysis.differential_diagnoses?.length > 0 && (
-        <div className="rounded-lg border border-border bg-card p-4 medical-card-shadow">
-          <h4 className="text-sm font-semibold text-foreground mb-2">Differential Diagnoses</h4>
+        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
+          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+            <GitBranch className="h-4 w-4 text-primary" /> Differential Diagnoses
+          </h4>
           <div className="flex flex-wrap gap-2">
             {analysis.differential_diagnoses.map((dd, i) => (
-              <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
+              <span key={i} className="text-xs font-medium px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors cursor-default">
                 {dd}
               </span>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

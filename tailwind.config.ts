@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["IBM Plex Sans", "sans-serif"],
-        mono: ["IBM Plex Mono", "monospace"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -72,6 +72,7 @@ export default {
           "info-foreground": "hsl(var(--medical-info-foreground))",
           surface: "hsl(var(--medical-surface))",
           highlight: "hsl(var(--medical-highlight))",
+          glow: "hsl(var(--medical-glow))",
         },
       },
       borderRadius: {
@@ -90,18 +91,28 @@ export default {
         },
         "pulse-medical": {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.6" },
+          "50%": { opacity: "0.5" },
         },
         "scan-line": {
-          "0%": { transform: "translateY(0%)" },
-          "100%": { transform: "translateY(100%)" },
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(300%)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-medical": "pulse-medical 2s ease-in-out infinite",
-        "scan-line": "scan-line 2s ease-in-out infinite",
+        "scan-line": "scan-line 1.5s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
       },
     },
   },

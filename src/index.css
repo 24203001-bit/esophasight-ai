@@ -2,39 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 215 25% 12%;
+    --background: 220 20% 97%;
+    --foreground: 220 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 12%;
+    --card-foreground: 220 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 12%;
+    --popover-foreground: 220 25% 10%;
 
-    --primary: 217 71% 45%;
+    --primary: 220 72% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 25% 93%;
-    --secondary-foreground: 215 25% 12%;
+    --secondary: 220 20% 94%;
+    --secondary-foreground: 220 25% 10%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 220 16% 94%;
+    --muted-foreground: 220 10% 46%;
 
-    --accent: 199 89% 48%;
+    --accent: 200 90% 48%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 217 71% 45%;
+    --border: 220 16% 90%;
+    --input: 220 16% 90%;
+    --ring: 220 72% 50%;
 
-    --radius: 0.625rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -45,47 +45,48 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Medical-specific tokens */
-    --medical-navy: 215 28% 13%;
-    --medical-navy-foreground: 210 20% 98%;
-    --medical-success: 152 60% 40%;
+    /* Medical tokens */
+    --medical-navy: 220 35% 10%;
+    --medical-navy-foreground: 220 20% 97%;
+    --medical-success: 158 64% 42%;
     --medical-success-foreground: 0 0% 100%;
     --medical-warning: 38 92% 50%;
     --medical-warning-foreground: 0 0% 100%;
-    --medical-info: 199 89% 48%;
+    --medical-info: 200 90% 48%;
     --medical-info-foreground: 0 0% 100%;
-    --medical-surface: 210 25% 97%;
-    --medical-highlight: 217 71% 95%;
+    --medical-surface: 220 20% 97%;
+    --medical-highlight: 220 72% 96%;
+    --medical-glow: 220 72% 60%;
   }
 
   .dark {
-    --background: 215 28% 8%;
-    --foreground: 210 20% 95%;
+    --background: 220 25% 6%;
+    --foreground: 220 15% 93%;
 
-    --card: 215 25% 12%;
-    --card-foreground: 210 20% 95%;
+    --card: 220 25% 10%;
+    --card-foreground: 220 15% 93%;
 
-    --popover: 215 25% 12%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 220 25% 10%;
+    --popover-foreground: 220 15% 93%;
 
-    --primary: 217 71% 55%;
+    --primary: 220 72% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 20% 18%;
-    --secondary-foreground: 210 20% 95%;
+    --secondary: 220 20% 16%;
+    --secondary-foreground: 220 15% 93%;
 
-    --muted: 215 20% 18%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 220 20% 16%;
+    --muted-foreground: 220 10% 58%;
 
-    --accent: 199 89% 48%;
+    --accent: 200 90% 48%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 220 40% 98%;
 
-    --border: 215 20% 22%;
-    --input: 215 20% 22%;
-    --ring: 217 71% 55%;
+    --border: 220 20% 18%;
+    --input: 220 20% 18%;
+    --ring: 220 72% 58%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -96,16 +97,17 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --medical-navy: 215 20% 92%;
-    --medical-navy-foreground: 215 28% 8%;
-    --medical-success: 152 60% 40%;
+    --medical-navy: 220 15% 90%;
+    --medical-navy-foreground: 220 25% 6%;
+    --medical-success: 158 64% 42%;
     --medical-success-foreground: 0 0% 100%;
     --medical-warning: 38 92% 50%;
     --medical-warning-foreground: 0 0% 100%;
-    --medical-info: 199 89% 48%;
+    --medical-info: 200 90% 48%;
     --medical-info-foreground: 0 0% 100%;
-    --medical-surface: 215 25% 14%;
-    --medical-highlight: 217 71% 15%;
+    --medical-surface: 220 25% 12%;
+    --medical-highlight: 220 72% 14%;
+    --medical-glow: 220 72% 40%;
   }
 }
 
@@ -116,24 +118,50 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
   code, pre, .font-mono {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
 @layer utilities {
   .medical-gradient {
-    background: linear-gradient(135deg, hsl(215 28% 13%) 0%, hsl(217 71% 30%) 100%);
+    background: linear-gradient(160deg, hsl(220 35% 10%) 0%, hsl(220 60% 22%) 50%, hsl(220 72% 32%) 100%);
   }
 
   .medical-card-shadow {
-    box-shadow: 0 1px 3px 0 hsl(215 28% 13% / 0.06), 0 1px 2px -1px hsl(215 28% 13% / 0.06);
+    box-shadow: 
+      0 1px 2px 0 hsl(220 35% 10% / 0.04),
+      0 1px 3px 0 hsl(220 35% 10% / 0.06);
   }
 
   .medical-card-shadow-lg {
-    box-shadow: 0 10px 25px -5px hsl(215 28% 13% / 0.08), 0 8px 10px -6px hsl(215 28% 13% / 0.04);
+    box-shadow: 
+      0 4px 6px -1px hsl(220 35% 10% / 0.06),
+      0 10px 25px -5px hsl(220 35% 10% / 0.08);
+  }
+
+  .glass-card {
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary-foreground)) 0%, hsl(var(--primary-foreground) / 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 }
