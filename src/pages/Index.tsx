@@ -52,7 +52,7 @@ const Index = () => {
                 Achalasia Cardia Diagnostic AI
               </h1>
               <p className="text-xs text-primary-foreground/70">
-                Gemini 2.5 Pro Vision • GI Tract Specialized Analysis
+                AI-Powered • GI Tract Specialized Analysis
               </p>
             </div>
           </div>
@@ -117,7 +117,7 @@ const Index = () => {
                 <div>
                   <h3 className="text-xs font-semibold text-foreground">Analysis Method</h3>
                   <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                    Uses Gemini 2.5 Pro Vision with specialized GI tract prompting based on
+                    Uses advanced AI vision with specialized GI tract prompting based on
                     Chicago Classification v4.0 criteria. Evaluates bird's beak sign, esophageal
                     dilation, peristalsis patterns, and LES function.
                   </p>

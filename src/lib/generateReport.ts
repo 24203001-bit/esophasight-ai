@@ -274,7 +274,7 @@ export function generateReport(
     pdf.setFontSize(6.5);
     pdf.text("AI-Assisted Analysis • For Clinical Reference Only • Not a Substitute for Professional Medical Diagnosis", W / 2, 290, { align: "center" });
     pdf.text(`Page ${p} of ${pageCount}`, W - margin, 290, { align: "right" });
-    pdf.text("Powered by Gemini 2.5 Pro Vision", margin, 290);
+    pdf.text("Powered by AI Vision Analysis", margin, 290);
   }
 
   pdf.save(`Achalasia_Report_${fileName.replace(/\.[^.]+$/, "")}_${new Date().toISOString().slice(0, 10)}.pdf`);
