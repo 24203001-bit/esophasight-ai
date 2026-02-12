@@ -67,10 +67,6 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <p className="text-sm text-primary-foreground/50 mt-4 max-w-xl leading-relaxed">
-              Upload esophageal imaging studies for AI-assisted detection of Achalasia Cardia,
-              including barium swallow, CT, endoscopy, and manometry images.
-            </p>
           </motion.div>
         </div>
       </header>
