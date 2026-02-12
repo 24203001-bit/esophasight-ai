@@ -48,11 +48,12 @@ const Index = () => {
         loop
         muted
         playsInline
-        className="fixed inset-0 w-full h-full object-cover z-0 opacity-15 pointer-events-none"
+        preload="auto"
+        className="fixed inset-0 w-full h-full object-cover z-0 opacity-30 pointer-events-none"
       >
         <source src={medicalBg} type="video/mp4" />
       </video>
-      <div className="fixed inset-0 bg-background/80 z-0 pointer-events-none" />
+      <div className="fixed inset-0 bg-background/60 z-0 pointer-events-none" />
       {/* Header */}
       <header className="medical-gradient relative overflow-hidden z-10">
         {/* Subtle dot pattern overlay */}
