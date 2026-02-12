@@ -5,7 +5,7 @@ import { AnalysisDisplay } from "@/components/AnalysisDisplay";
 import { analyzeImage, type AnalysisResult } from "@/lib/analyzeImage";
 import { generateReport } from "@/lib/generateReport";
 import { Button } from "@/components/ui/button";
-import { Loader2, FileDown, Scan, ShieldCheck, Microscope, Zap } from "lucide-react";
+import { Loader2, FileDown, Scan, Microscope, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -76,13 +76,13 @@ const Index = () => {
       </header>
 
       <main className="w-full px-8 py-8">
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Panel - Upload */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="lg:col-span-2 space-y-5"
+            className="lg:col-span-1 space-y-5"
           >
             <div className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
               <div className="flex items-center gap-2 mb-4">
@@ -140,33 +140,6 @@ const Index = () => {
                 </AnimatePresence>
               </div>
             </div>
-
-            {/* Info card */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="rounded-xl border border-border bg-card p-5 medical-card-shadow"
-            >
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 rounded-lg bg-medical-success/10 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="h-4 w-4 text-medical-success" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-bold text-foreground">Analysis Method</h3>
-                  <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                    Uses advanced AI vision with specialized GI tract prompting based on
-                    Chicago Classification v4.0 criteria. Evaluates bird's beak sign, esophageal
-                    dilation, peristalsis patterns, and LES function.
-                  </p>
-                  <div className="mt-3 pt-3 border-t border-border">
-                    <p className="text-[11px] text-muted-foreground/70 italic">
-                      For clinical reference only. Not a substitute for professional medical diagnosis.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Right Panel - Results */}
@@ -174,7 +147,7 @@ const Index = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className="lg:col-span-3"
+            className="lg:col-span-2"
           >
             <AnimatePresence mode="wait">
               {result ? (
