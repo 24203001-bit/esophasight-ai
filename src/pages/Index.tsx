@@ -7,6 +7,7 @@ import { generateReport } from "@/lib/generateReport";
 import { Button } from "@/components/ui/button";
 import { Loader2, FileDown, Scan, Microscope, Zap } from "lucide-react";
 import { toast } from "sonner";
+import medicalBg from "@/assets/medical-bg.mp4";
 
 const Index = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -40,9 +41,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover z-0 opacity-15 pointer-events-none"
+      >
+        <source src={medicalBg} type="video/mp4" />
+      </video>
+      <div className="fixed inset-0 bg-background/80 z-0 pointer-events-none" />
       {/* Header */}
-      <header className="medical-gradient relative overflow-hidden">
+      <header className="medical-gradient relative overflow-hidden z-10">
         {/* Subtle dot pattern overlay */}
         <div className="absolute inset-0 dot-pattern opacity-30" />
         <div className="relative w-full py-10 px-8">
@@ -71,7 +83,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="w-full px-8 py-8">
+      <main className="w-full px-8 py-8 relative z-10">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Panel - Upload */}
           <motion.div
