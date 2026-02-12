@@ -41,7 +41,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative flex flex-col">
       {/* Background Video */}
       <video
         autoPlay
@@ -83,8 +83,8 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="w-full px-8 py-8 relative z-10">
-        <div className="grid lg:grid-cols-3 gap-6">
+      <main className="w-full px-8 py-8 relative z-10 flex-1 flex flex-col">
+        <div className="grid lg:grid-cols-3 gap-6 flex-1">
           {/* Left Panel - Upload */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -173,7 +173,7 @@ const Index = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-xl border border-dashed border-border bg-muted/30 p-16 text-center"
+                  className="rounded-xl border border-dashed border-border bg-muted/30 p-16 text-center flex-1 flex flex-col items-center justify-center min-h-[400px]"
                 >
                   <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
                     <div className="h-16 w-16 mx-auto mb-4 rounded-2xl bg-muted flex items-center justify-center">
