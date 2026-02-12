@@ -45,7 +45,7 @@ const Index = () => {
       <header className="medical-gradient relative overflow-hidden">
         {/* Subtle dot pattern overlay */}
         <div className="absolute inset-0 dot-pattern opacity-30" />
-        <div className="relative container max-w-6xl py-10 px-6">
+        <div className="relative w-full py-10 px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container max-w-6xl px-6 py-8">
+      <main className="w-full px-8 py-8">
         <div className="grid lg:grid-cols-5 gap-6">
           {/* Left Panel - Upload */}
           <motion.div
