@@ -162,21 +162,6 @@ export function AnalysisDisplay({ analysis, fileName }: AnalysisDisplayProps) {
         </motion.div>
       )}
 
-      {/* Differential Diagnoses */}
-      {analysis.differential_diagnoses?.length > 0 && (
-        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
-          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-            <GitBranch className="h-4 w-4 text-primary" /> Differential Diagnoses
-          </h4>
-          <div className="flex flex-wrap gap-2">
-            {analysis.differential_diagnoses.map((dd, i) => (
-              <span key={i} className="text-xs font-medium px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors cursor-default">
-                {dd}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      )}
     </motion.div>
   );
 }

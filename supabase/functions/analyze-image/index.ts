@@ -33,7 +33,7 @@ Your analysis must follow this exact JSON structure. Return ONLY valid JSON, no 
   },
   "differential_diagnoses": ["string"],
   "recommendations": ["string"],
-  "clinical_notes": "string with detailed clinical interpretation",
+  "clinical_notes": "string - keep this to 2-3 concise sentences maximum, focusing only on the most critical clinical interpretation",
   "image_quality": "Excellent" or "Good" or "Fair" or "Poor",
   "image_type_detected": "string describing the type of medical image"
 }
