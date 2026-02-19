@@ -74,6 +74,14 @@ serve(async (req) => {
       );
     }
 
+    // Limit image size to ~4MB base64 (roughly 3MB binary)
+    if (imageBase64.length > 4 * 1024 * 1024) {
+      return new Response(
+        JSON.stringify({ error: "Image too large. Please use an image under 3MB." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
@@ -86,7 +94,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           {
