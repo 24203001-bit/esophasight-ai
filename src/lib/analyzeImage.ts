@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 export interface AnalysisResult {
   diagnosis: string;
   confidence: number;
+  accuracy_score: number;
   achalasia_type: string;
   findings: Array<{
     finding: string;
