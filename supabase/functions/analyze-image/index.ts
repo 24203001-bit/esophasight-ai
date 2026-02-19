@@ -14,7 +14,8 @@ Your analysis must follow this exact JSON structure. Return ONLY valid JSON, no 
 {
   "diagnosis": "Positive" or "Negative" or "Inconclusive",
   "confidence": number between 0-100,
-  "achalasia_type": "Type I (Classic)" or "Type II (Panesophageal pressurization)" or "Type III (Spastic)" or "Not Applicable" or "Cannot determine",
+  "achalasia_type": "Type I (Classic)" or "Type II (Panesophageal pressurization)" or "Type III (Spastic)" or "Not Applicable",
+  "accuracy_score": number between 0-100 (how accurate/reliable you believe this specific analysis is based on image quality and findings clarity),
   "findings": [
     {
       "finding": "string describing the finding",
@@ -37,7 +38,18 @@ Your analysis must follow this exact JSON structure. Return ONLY valid JSON, no 
   "image_type_detected": "string describing the type of medical image"
 }
 
-Be thorough, precise, and use evidence-based medicine. If the image is not a medical image or is unrelated to esophageal evaluation, still provide your best assessment but note the limitation. Reference established diagnostic criteria from the Chicago Classification v4.0 for achalasia when applicable.
+DIAGNOSTIC THRESHOLDS (you MUST follow these):
+- confidence >= 70 AND 2+ key indicators positive → diagnosis: "Positive"
+- confidence >= 50 AND 1+ key indicators positive → diagnosis: "Positive" (with lower confidence noted)
+- confidence < 50 OR 0 key indicators positive → diagnosis: "Negative"
+- Only use "Inconclusive" if image quality is "Poor" or image is not a relevant medical image
+
+CLASSIFICATION RULES:
+- NEVER use "Cannot determine" for achalasia_type. Always classify as one of: Type I, Type II, Type III, or "Not Applicable"
+- If diagnosis is "Negative", set achalasia_type to "Not Applicable"
+- If diagnosis is "Positive", you MUST classify the type based on available evidence (default to Type I if unclear)
+
+Be thorough, precise, and use evidence-based medicine. Reference established diagnostic criteria from the Chicago Classification v4.0 for achalasia when applicable.
 
 IMPORTANT: Consider findings from published datasets and literature on Achalasia, Esophageal Achalasia, and Cardiospasm to inform your analysis. Key radiological signs include:
 - Bird's beak sign (tapered narrowing at GEJ)
@@ -131,6 +143,7 @@ serve(async (req) => {
       analysisResult = { 
         diagnosis: "Inconclusive",
         confidence: 0,
+        accuracy_score: 0,
         clinical_notes: content,
         findings: [],
         key_indicators: {},

@@ -60,11 +60,19 @@ export function AnalysisDisplay({ analysis, fileName }: AnalysisDisplayProps) {
                 Achalasia Cardia — {analysis.diagnosis}
               </h3>
             </div>
-            <div className="flex items-center gap-3 mt-2">
-              <span className={`text-2xl font-mono font-bold ${diagAccent}`}>
-                {analysis.confidence}%
-              </span>
-              <span className="text-xs text-muted-foreground">confidence</span>
+            <div className="flex items-center gap-6 mt-2">
+              <div>
+                <span className={`text-2xl font-mono font-bold ${diagAccent}`}>
+                  {analysis.confidence}%
+                </span>
+                <span className="text-xs text-muted-foreground ml-1">confidence</span>
+              </div>
+              <div>
+                <span className="text-2xl font-mono font-bold text-primary">
+                  {analysis.accuracy_score ?? "N/A"}%
+                </span>
+                <span className="text-xs text-muted-foreground ml-1">accuracy</span>
+              </div>
             </div>
             {analysis.achalasia_type && analysis.achalasia_type !== "Not Applicable" && (
               <p className="text-sm text-muted-foreground mt-2 font-medium">{analysis.achalasia_type}</p>
