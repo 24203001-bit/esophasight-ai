@@ -137,9 +137,12 @@ export function AnalysisDisplay({ analysis, fileName }: AnalysisDisplayProps) {
 
       {/* Clinical Notes */}
       {analysis.clinical_notes && (
-        <motion.div variants={item} className="rounded-xl border border-border bg-card p-5 medical-card-shadow">
-          <h4 className="text-sm font-bold text-foreground mb-3">Clinical Interpretation</h4>
-          <p className="text-sm text-muted-foreground leading-relaxed">{analysis.clinical_notes}</p>
+        <motion.div variants={item} className="rounded-xl border-2 border-primary/20 bg-primary/5 p-5 medical-card-shadow relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-primary rounded-l-xl" />
+          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2 pl-3">
+            <Stethoscope className="h-4 w-4 text-primary" /> Clinical Interpretation
+          </h4>
+          <p className="text-sm text-foreground font-medium leading-relaxed pl-3">{analysis.clinical_notes}</p>
         </motion.div>
       )}
 
